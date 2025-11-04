@@ -10,8 +10,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+# lib/  # Commented out - was ignoring frontend/src/lib
+# lib64/  # Commented out - not needed with venv
 parts/
 sdist/
 var/
