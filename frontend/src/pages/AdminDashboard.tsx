@@ -88,7 +88,7 @@ export default function AdminDashboard() {
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Brands</h3>
             <div className="space-y-3">
-              {['Levi\'s', 'Wrangler', 'Lee', 'Vintage'].map((brand, idx) => (
+              {['Levi\'s', 'Wrangler', 'Lee', 'Vintage'].map((brand) => (
                 <div key={brand} className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">{brand}</span>
                   <span className="text-sm font-medium text-gray-900">0</span>

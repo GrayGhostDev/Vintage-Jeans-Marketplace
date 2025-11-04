@@ -1,7 +1,7 @@
 import { useAuth } from '../lib/auth'
 import { useQuery } from '@tanstack/react-query'
 import { listings } from '../lib/api'
-import { formatCurrency, formatDate, calculateROI } from '../lib/utils'
+import { formatCurrency, calculateROI } from '../lib/utils'
 
 export default function SellerDashboard() {
   const { user, logout } = useAuth()
