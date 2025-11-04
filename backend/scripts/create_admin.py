@@ -11,9 +11,15 @@ import os
 import sys
 import requests
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load .env file from backend directory
+backend_dir = Path(__file__).parent.parent
+env_path = backend_dir / '.env'
+load_dotenv(env_path)
 
 # Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(backend_dir))
 
 from research.db.supabase_client import get_supabase_client
 
