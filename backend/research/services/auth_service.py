@@ -1,17 +1,31 @@
-"""Authentication and authorization service."""
+"""
+Authentication and authorization service - DEPRECATED.
 
-from datetime import datetime, timedelta
-from typing import Optional
-from jose import JWTError, jwt
-from passlib.context import CryptContext
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from sqlmodel import Session, select
-import os
-from dotenv import load_dotenv
+This file uses SQLModel and is no longer in use.
+All auth functionality has been migrated to auth_service_supabase.py
 
-from research.models.seller import Seller
-from research.db.session import get_session
+DO NOT IMPORT THIS FILE.
+"""
+import warnings
+
+warnings.warn(
+    "research.services.auth_service is deprecated. Use auth_service_supabase instead.",
+    DeprecationWarning,
+    stacklevel=2
+)
+
+# Original imports commented out - this file is deprecated
+# from datetime import datetime, timedelta
+# from typing import Optional
+# from jose import JWTError, jwt
+# from passlib.context import CryptContext
+# from fastapi import Depends, HTTPException, status
+# from fastapi.security import OAuth2PasswordBearer
+# from sqlmodel import Session, select
+# import os
+# from dotenv import load_dotenv
+# from research.models.seller import Seller
+# from research.db.session import get_session
 
 load_dotenv()
 

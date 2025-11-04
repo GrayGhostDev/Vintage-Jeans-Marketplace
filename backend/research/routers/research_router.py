@@ -12,4 +12,4 @@ async def upload_research_file(
     contents = await file.read()
     summary = await analyze_document(contents.decode("utf-8"))
     record = save_research_summary(client_name, summary)
-    return {"client": client_name, "summary": summary, "record_id": record.id}
+    return {"client": client_name, "summary": summary, "record_id": record.get("id")}

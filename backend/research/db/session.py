@@ -1,33 +1,29 @@
-from sqlmodel import create_engine, Session, SQLModel
-import os
-from dotenv import load_dotenv
+"""
+Legacy SQLModel session file - DEPRECATED.
 
-# Import all models to register them with SQLModel
-from research.models.seller import Seller
-from research.models.listing import Listing
-from research.models.analytics import Analytics, Insight, SyncLog
-from research.models.research_model import ResearchSummary
-from research.models.blog import BlogPost
+All database operations have been migrated to Supabase.
+This file is kept for reference but should not be imported.
 
-load_dotenv()
+Use research.db.supabase_client instead.
+"""
+import warnings
 
-# Database configuration
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./vintage_jeans.db")
-
-# Create engine with appropriate settings
-engine = create_engine(
-    DATABASE_URL,
-    echo=False,
-    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+warnings.warn(
+    "research.db.session is deprecated. Use research.db.supabase_client instead.",
+    DeprecationWarning,
+    stacklevel=2
 )
 
 
 def get_session():
-    """Get database session (context manager pattern)."""
-    return Session(engine)
+    """Deprecated - use Supabase client instead."""
+    raise NotImplementedError(
+        "SQLModel sessions are deprecated. Use get_supabase_client() instead."
+    )
 
 
 def init_db():
-    """Initialize database by creating all tables."""
-    SQLModel.metadata.create_all(engine)
-    print("✅ Database initialized successfully!")
+    """Deprecated - use Supabase migrations instead."""
+    raise NotImplementedError(
+        "init_db() is deprecated. Use Supabase migrations instead."
+    )

@@ -14,6 +14,7 @@ psycopg2-binary>=2.9.9  # PostgreSQL driver (still needed for some ops)
 # Authentication & Security
 python-jose[cryptography]>=3.3.0  # JWT
 passlib[bcrypt]>=1.7.4  # Password hashing
+bcrypt>=4.1.0  # Explicitly specify newer bcrypt for Python 3.13 compatibility
 python-multipart>=0.0.6  # Form data parsing
 
 # AI & Analytics
