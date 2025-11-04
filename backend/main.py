@@ -1,3 +1,7 @@
+"""
+Vintage Jeans Marketplace Platform API
+FastAPI backend with Supabase PostgreSQL database
+"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
