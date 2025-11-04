@@ -1,0 +1,5 @@
+POST http://127.0.0.1:8000/research/upload
+Content-Type: multipart/form-data
+
+client_name=Vintage Market
+file=@sample_research.txt

@@ -1,0 +1,147 @@
+# ============================================================================
+# RENDER DEPLOYMENT CONFIGURATION
+# ============================================================================
+# This file defines the infrastructure for deploying the Vintage Jeans
+# Marketplace backend API to Render.com
+#
+# Documentation: https://render.com/docs/blueprint-spec
+# ============================================================================
+
+services:
+  # --------------------------------------------------------------------------
+  # WEB SERVICE: FastAPI Backend
+  # --------------------------------------------------------------------------
+  - type: web
+    name: vintage-jeans-api
+    env: python
+    region: oregon  # Choose: oregon, frankfurt, singapore, ohio
+    plan: free  # Options: free, starter, standard, pro
+    runtime: python-3.13
+    buildCommand: "cd backend && pip install --upgrade pip && pip install -r requirements.txt"
+    startCommand: "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /api/health
+
+    # Environment Variables
+    # Set sensitive values in Render Dashboard: https://dashboard.render.com
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13"
+
+      # Supabase Configuration (set these in Render Dashboard)
+      - key: SUPABASE_URL
+        sync: false  # Manually set in dashboard
+
+      - key: SUPABASE_KEY
+        sync: false  # Service role key - set in dashboard
+
+      # Authentication
+      - key: JWT_SECRET_KEY
+        generateValue: true  # Auto-generate secure random value
+
+      - key: JWT_ALGORITHM
+        value: HS256
+
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "43200"  # 30 days
+
+      # OpenAI (set in dashboard)
+      - key: OPENAI_API_KEY
+        sync: false
+
+      - key: OPENAI_MODEL
+        value: gpt-4-turbo
+
+      # Application Settings
+      - key: ENVIRONMENT
+        value: production
+
+      - key: DEBUG
+        value: "false"
+
+      - key: LOG_LEVEL
+        value: INFO
+
+      # CORS - Update with your Vercel domain
+      - key: ALLOWED_ORIGINS
+        value: https://vintage-jeans-marketplace.vercel.app,https://www.yourapp.com
+
+      # Optional: Redis/Celery (uncomment if using)
+      # - key: REDIS_URL
+      #   fromDatabase:
+      #     name: vintage-jeans-redis
+      #     property: connectionString
+
+# --------------------------------------------------------------------------
+# Optional: Redis Database (for Celery background tasks)
+# --------------------------------------------------------------------------
+# databases:
+#   - name: vintage-jeans-redis
+#     plan: free
+#     region: oregon
+
+# ============================================================================
+# DEPLOYMENT INSTRUCTIONS
+# ============================================================================
+#
+# INITIAL SETUP:
+# 1. Create a Render account: https://dashboard.render.com/register
+# 2. Connect your GitHub repository
+# 3. Go to "New +" > "Blueprint"
+# 4. Select your repository and this render.yaml file
+# 5. Set environment variables in the dashboard:
+#    - SUPABASE_URL
+#    - SUPABASE_KEY (service role key)
+#    - OPENAI_API_KEY
+# 6. Click "Apply" to deploy
+#
+# UPDATING THE APP:
+# - Render automatically redeploys when you push to main/master branch
+# - Or manually deploy from Render Dashboard > Your Service > Manual Deploy
+#
+# VIEWING LOGS:
+# - Go to Render Dashboard > Your Service > Logs
+#
+# ENVIRONMENT VARIABLES:
+# - Go to Render Dashboard > Your Service > Environment
+# - Add/edit variables as needed
+# - Changes trigger automatic redeployment
+#
+# CUSTOM DOMAINS:
+# - Go to Render Dashboard > Your Service > Settings > Custom Domains
+# - Add your domain and configure DNS
+#
+# SCALING:
+# - Free tier: 512MB RAM, shared CPU, spins down after 15 min of inactivity
+# - Starter tier ($7/month): 512MB RAM, doesn't spin down
+# - Standard tier: 2GB RAM, autoscaling available
+#
+# MONITORING:
+# - Built-in metrics: CPU, Memory, Response Time
+# - Health checks: Automatic checks at /api/health
+# - Alerts: Configure in dashboard for downtime/errors
+#
+# SUPABASE SETUP (Before Deploying):
+# 1. Create a Supabase project: https://app.supabase.com
+# 2. Run the SQL schema from: backend/database/supabase_schema.sql
+# 3. Get your credentials:
+#    - Settings > API > Project URL (SUPABASE_URL)
+#    - Settings > API > service_role key (SUPABASE_KEY)
+# 4. Add these to Render environment variables
+#
+# SECURITY NOTES:
+# - Never commit SUPABASE_KEY to Git (use Render dashboard)
+# - Use service_role key for backend, anon key for frontend
+# - Enable Row Level Security (RLS) in Supabase for production
+# - Regularly rotate JWT_SECRET_KEY
+#
+# COST ESTIMATE (Free Tier):
+# - Render Web Service: $0 (with limitations)
+# - Supabase: $0 (up to 500MB database, 2GB bandwidth)
+# - Total: $0/month
+#
+# COST ESTIMATE (Production):
+# - Render Starter: $7/month
+# - Supabase Pro: $25/month (if needed)
+# - Total: $32/month minimum
+#
+# ============================================================================
