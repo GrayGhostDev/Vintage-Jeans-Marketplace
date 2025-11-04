@@ -61,9 +61,9 @@ services:
       - key: LOG_LEVEL
         value: INFO
 
-      # CORS - Update with your Vercel domain
+      # CORS - Production domains
       - key: ALLOWED_ORIGINS
-        value: https://vintage-jeans-marketplace.vercel.app,https://www.yourapp.com
+        value: https://vintage-jeans-marketplace.vercel.app
 
       # Optional: Redis/Celery (uncomment if using)
       # - key: REDIS_URL
